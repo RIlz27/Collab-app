@@ -22,7 +22,7 @@ class Categories extends Component
         return view('livewire.category', [
             'categories' => Category::latest()->paginate(5),
             'parents' => Category::whereNull('parent_id')->get(),
-        ]);
+        ])->layout('layouts.app');
     }
 
     public function store()

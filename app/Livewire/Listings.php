@@ -23,7 +23,7 @@ class Listings extends Component
 
     public function render()
     {
-        return view('livewire.listing-crud', [
+        return view('livewire.listings', [
             'listings' => Listing::latest()->paginate(5),
         ]);
     }

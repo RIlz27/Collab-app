@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire;
 
 use App\Models\Listing;
@@ -9,13 +10,15 @@ class ListingCrud extends Component
 {
     use WithPagination;
 
-    public $title, $description, $price, $listing_id;
+    public $title, $description, $price, $listing_id, $category_id, $location_id;
     public $isEditing = false;
 
     protected $rules = [
         'title' => 'required|string|min:3',
         'description' => 'nullable|string',
         'price' => 'required|numeric|min:0',
+        'category_id' => 'required|exists:categories,id',
+        'location_id' => 'required|exists:locations,id',
     ];
 
     public function render()
@@ -30,9 +33,12 @@ class ListingCrud extends Component
         $this->title = '';
         $this->description = '';
         $this->price = '';
+        $this->category_id = null;
+        $this->location_id = null;
         $this->listing_id = null;
         $this->isEditing = false;
     }
+
 
     public function store()
     {
@@ -42,10 +48,12 @@ class ListingCrud extends Component
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
+            'category_id' => $this->category_id,
+            'location_id' => $this->location_id,
         ]);
 
         $this->resetInput();
-        session()->flash('message', 'Iklan berhasil ditambahkan!');
+        session()->flash('message', 'Produk berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -55,8 +63,11 @@ class ListingCrud extends Component
         $this->title = $listing->title;
         $this->description = $listing->description;
         $this->price = $listing->price;
+        $this->category_id = $listing->category_id;
+        $this->location_id = $listing->location_id;
         $this->isEditing = true;
     }
+
 
     public function update()
     {
@@ -67,15 +78,18 @@ class ListingCrud extends Component
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
+            'category_id' => $this->category_id,
+            'location_id' => $this->location_id,
         ]);
 
         $this->resetInput();
-        session()->flash('message', 'Iklan berhasil diperbarui!');
+        session()->flash('message', 'Produk berhasil diperbarui!');
     }
+
 
     public function destroy($id)
     {
         Listing::destroy($id);
-        session()->flash('message', 'Iklan berhasil dihapus!');
+        session()->flash('message', 'Produk berhasil dihapus!');
     }
 }

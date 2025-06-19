@@ -5,7 +5,7 @@ use App\Models\Location;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class LocationCrud extends Component
+class Locations extends Component
 {
     use WithPagination;
 
@@ -35,10 +35,10 @@ class LocationCrud extends Component
 
     public function edit($id)
     {
-        $cat = Location::findOrFail($id);
-        $this->location_id = $cat->id;
-        $this->name = $cat->name;
-        $this->parent_id = $cat->parent_id;
+        $location = Location::findOrFail($id);
+        $this->location_id = $location->id;
+        $this->name = $location->name;
+        $this->parent_id = $location->parent_id;
         $this->isEditing = true;
     }
 

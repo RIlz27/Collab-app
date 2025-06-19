@@ -6,7 +6,7 @@ use App\Models\Listing;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListingCrud extends Component
+class Listings extends Component
 {
     use WithPagination;
 

@@ -4,12 +4,12 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class Users extends Component
 {
     public $users;
-
     public $name = '';
     public $email = '';
     public $password = '';
@@ -42,13 +42,15 @@ class Users extends Component
         ];
 
         if ($this->password) {
-            $data['password'] = $this->password; // akan di-hash otomatis oleh casts()
+            $data['password'] = Hash::make($this->password);
         }
 
         User::updateOrCreate(
             ['id' => $this->userId],
             $data
         );
+
+        session()->flash('message', $this->userId ? 'User berhasil diperbarui.' : 'User berhasil ditambahkan.');
 
         $this->resetForm();
         $this->loadUsers();
@@ -60,26 +62,27 @@ class Users extends Component
         $this->userId = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->password = ''; // kosongkan password saat edit
+        $this->password = '';
     }
 
     public function delete($id)
     {
         User::findOrFail($id)->delete();
+
+        session()->flash('message', 'User berhasil dihapus.');
+
         $this->resetForm();
         $this->loadUsers();
     }
 
     public function resetForm()
     {
-        $this->userId = null;
-        $this->name = '';
-        $this->email = '';
-        $this->password = '';
+        $this->reset(['userId', 'name', 'email', 'password']);
+        $this->resetValidation();
     }
 
     public function render()
     {
-        return view('livewire.user-crud');
+        return view('livewire.user')->layout('layouts.app');
     }
 }

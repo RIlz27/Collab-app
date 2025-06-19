@@ -23,7 +23,7 @@ class Locations extends Component
         return view('livewire.location', [
             'locations' => Location::latest()->paginate(5),
             'parents' => Location::whereNull('parent_id')->get(),
-        ]);
+        ])->layout('layouts.app');
     }
 
     public function store()

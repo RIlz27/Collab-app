@@ -5,7 +5,7 @@ use App\Models\Category;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Categorys extends Component
+class Categories extends Component
 {
     use WithPagination;
 
@@ -14,13 +14,13 @@ class Categorys extends Component
 
     protected $rules = [
         'name' => 'required|string|min:2',
-        'parent_id' => 'nullable|exists:Category,id',
+        'parent_id' => 'nullable|exists:categories,id',
     ];
 
     public function render()
     {
         return view('livewire.category', [
-            'category' => Category::latest()->paginate(5),
+            'categories' => Category::latest()->paginate(5),
             'parents' => Category::whereNull('parent_id')->get(),
         ]);
     }
@@ -45,7 +45,7 @@ class Categorys extends Component
     public function update()
     {
         $this->validate();
-        Category::findOrFail($this->Category_id)->update([
+        Category::findOrFail($this->category_id)->update([
             'name' => $this->name,
             'parent_id' => $this->parent_id,
         ]);

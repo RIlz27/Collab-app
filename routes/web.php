@@ -8,6 +8,9 @@ use App\Livewire\Locations;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/produk', Listings::class)->name('listings');
-Route::get('/kategori', Categorys::class)->name('category');
-Route::get('/lokasi', Locations::class)->name('location');
+Route::get('/produk', Listings::class);
+Route::get('/kategori', Categorys::class);
+Route::get('/lokasi', Locations::class);
+Route::get('/', function () {
+    return redirect('/produk');
+});

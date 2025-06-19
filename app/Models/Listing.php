@@ -7,8 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Listing extends Model
 {
     protected $fillable = [
-        'user_id', 'category_id', 'location_id',
-        'title', 'description', 'price', 'currency', 'published_at', 'is_hot'
+        'user_id',
+        'category_id',
+        'location_id',
+        'title',
+        'description',
+        'price',
+        'currency',
+        'published_at',
+        'is_hot',
+        'name',   
+        'sms',       
+        'phone', 
+        'whatsapp',   
     ];
 
     public function user()

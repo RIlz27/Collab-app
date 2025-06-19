@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire;
 
 use App\Models\Location;
@@ -14,13 +15,13 @@ class Locations extends Component
 
     protected $rules = [
         'name' => 'required|string|min:2',
-        'parent_id' => 'nullable|exists:location,id',
+        'parent_id' => 'nullable|exists:locations,id',
     ];
 
     public function render()
     {
-        return view('livewire.Location-crud', [
-            'location' => Location::latest()->paginate(5),
+        return view('livewire.location', [
+            'locations' => Location::latest()->paginate(5),
             'parents' => Location::whereNull('parent_id')->get(),
         ]);
     }

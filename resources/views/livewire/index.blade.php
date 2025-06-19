@@ -1,7 +1,20 @@
 <div>
-    <body>
-        <h1>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad amet suscipit eos eius nesciunt architecto, earum placeat nemo maxime fugiat illo mollitia magnam in reprehenderit asperiores delectus sunt tempore repellat?
-        </h1>
-    </body>
+    <div class="relative bg-cover bg-center h-[500px]"
+        style="background-image: url('{{ asset('storage/bg-house.jpg') }}');">
+        <div class="relative z-10 max-w-4xl mx-auto px-4 py-32 text-white text-center">
+            <h1 class="text-4xl font-bold leading-snug">Lorem ipsum dolor sit amet,<br> consectetur adipiscing elit, sed
+                do eiusmod</h1>
+
+            <div class="mt-8 bg-white p-4 rounded-xl inline-block">
+                <p class="text-black text-sm font-semibold mb-4 text-left">Pilih Kategori Yang Diinginkan</p>
+                <div class="flex gap-2">
+                    <button class="bg-orange-400 text-white px-4 py-2 rounded-full font-semibold">Properti
+                        Hunian</button>
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full font-semibold">Properti
+                        Komersial</button>
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full font-semibold">Barang Mewah</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

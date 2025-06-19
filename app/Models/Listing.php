@@ -31,9 +31,4 @@ class Listing extends Model
     {
         return $this->hasMany(ListingImage::class);
     }
-
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class);
-    }
 }

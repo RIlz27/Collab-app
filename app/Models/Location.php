@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Location extends Model
 {
@@ -22,17 +21,5 @@ class Location extends Model
     public function listings()
     {
         return $this->hasMany(Listing::class);
-    }
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($location) {
-            $location->slug = Str::slug($location->name);
-        });
-
-        static::updating(function ($location) {
-            $location->slug = Str::slug($location->name);
-        });
     }
 }

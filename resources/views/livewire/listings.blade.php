@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto py-6">
-    <h2 class="text-2xl font-bold mb-4">{{ $isEditing ? 'Edit' : 'Tambah' }} Listing</h2>
+    {{-- <h2 class="text-2xl font-bold mb-4">{{ $isEditing ? 'Edit' : 'Tambah' }} Listing</h2> --}}
 
     @if (session()->has('message'))
         <div class="mb-4 text-green-600">
@@ -8,117 +8,139 @@
     @endif
 
     <form wire:submit.prevent="{{ $isEditing ? 'update' : 'store' }}" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Judul -->
-            <div>
-                <label class="block">Judul</label>
-                <input type="text" wire:model.defer="title" class="w-full border rounded px-3 py-2">
-                @error('title')
-                    <span class="text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
+        <div>
+            <div class="max-w-5xl mx-auto my-8">
+                <div class="bg-white shadow-lg rounded-xl p-6 border border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">MAU IKLANIN APA DI JUALANY ??</h2>
 
-            <!-- Harga -->
-            <div>
-                <label class="block">Harga</label>
-                <input type="number" wire:model.defer="price" class="w-full border rounded px-3 py-2">
-                @error('price')
-                    <span class="text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
+                    <!-- Judul -->
+                    <div>
+                        <label class="block">Judul</label>
+                        <input type="text" wire:model.defer="title" class="w-full border rounded px-3 py-2">
+                        @error('title')
+                            <span class="text-red-600">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-            <!-- Kategori -->
-            <div>
-                <label class="block">Kategori</label>
-                <select wire:model.defer="category_id" class="w-full border rounded px-3 py-2">
-                    <option value="">-- Pilih Kategori --</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-                @error('category_id')
-                    <span class="text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
+                    <!-- Harga -->
+                    <div>
+                        <label class="block">Harga</label>
+                        <input type="number" wire:model.defer="price" class="w-full border rounded px-3 py-2">
+                        @error('price')
+                            <span class="text-red-600">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-            <!-- Lokasi -->
-            <div>
-                <label class="block">Lokasi</label>
-                <select wire:model.defer="location_id" class="w-full border rounded px-3 py-2">
-                    <option value="">-- Pilih Lokasi --</option>
-                    @foreach ($locations as $loc)
-                        <option value="{{ $loc->id }}">{{ $loc->name }}</option>
-                    @endforeach
-                </select>
-                @error('location_id')
-                    <span class="text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
+                    <!-- Kategori -->
+                    <div>
+                        <label class="block">Kategori</label>
+                        <select wire:model.defer="category_id" class="w-full border rounded px-3 py-2">
+                            <option value="">Pilih Kategori</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                            <span class="text-red-600">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-            <!-- Deskripsi -->
-            <div class="col-span-2">
-                <label class="block">Deskripsi</label>
-                <textarea wire:model.defer="description" rows="3" class="w-full border rounded px-3 py-2"></textarea>
-                @error('description')
-                    <span class="text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
+                    <!-- Lokasi -->
+                    <div>
+                        <label class="block">Lokasi</label>
+                        <select wire:model="location_id" class="w-full border rounded px-3 py-2">
+                            <option value="">Pilih Lokasi</option>
+                            @foreach ($locations as $location)
+                                <option value="{{ $location->id }}">{{ $location->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('location_id')
+                            <span class="text-red-600">{{ $message }}</span>
+                        @enderror
 
-            <!-- Upload Gambar -->
-            <div class="col-span-2">
-                <label class="block">Upload Gambar (maks. 3 gambar)</label>
-                <input type="file" wire:model="images" multiple class="w-full border rounded px-3 py-2"
-                    accept="image/*">
-                @error('images')
-                    <span class="text-red-600">{{ $message }}</span>
-                @enderror
-                @error('images.*')
-                    <span class="text-red-600 block">{{ $message }}</span>
-                @enderror
+                        @if ($location_id)
+                            <div class="text-sm text-gray-600 mt-1">
+                                Total iklan di lokasi ini: <strong>{{ $produkPerLokasi }}</strong>
+                            </div>
+                        @endif
+                    </div>
 
-                <div class="flex flex-wrap gap-4 mt-2">
-                    @if ($images)
-                        @foreach ($images as $img)
-                            @if ($img instanceof \Livewire\TemporaryUploadedFile)
-                                <img src="{{ $img->temporaryUrl() }}" class="w-24 h-24 object-cover border rounded">
+                    <!-- Deskripsi -->
+                    <div class="col-span-2">
+                        <label class="block">Deskripsi</label>
+                        <textarea wire:model.defer="description" rows="3" class="w-full border rounded px-3 py-2"></textarea>
+                        @error('description')
+                            <span class="text-red-600">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Upload Gambar -->
+                    <div class="col-span-2">
+                        <label class="block">Upload Gambar (maks. 3 gambar)</label>
+                        <input type="file" wire:model="images" multiple class="w-full border rounded px-3 py-2"
+                            accept="image/*">
+                        @error('images')
+                            <span class="text-red-600">{{ $message }}</span>
+                        @enderror
+                        @error('images.*')
+                            <span class="text-red-600 block">{{ $message }}</span>
+                        @enderror
+
+                        <div class="flex flex-wrap gap-4 mt-2">
+                            @if ($images)
+                                @foreach ($images as $img)
+                                    @if ($img instanceof \Livewire\TemporaryUploadedFile)
+                                        <img src="{{ $img->temporaryUrl() }}"
+                                            class="w-24 h-24 object-cover border rounded">
+                                    @endif
+                                @endforeach
                             @endif
-                        @endforeach
-                    @endif
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Kontak -->
-            <div class="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label class="block">Nama Pemilik</label>
-                    <input type="text" wire:model.defer="name" class="w-full border rounded px-3 py-2">
-                    @error('name')
-                        <span class="text-red-600">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div>
-                    <label class="block">SMS</label>
-                    <input type="text" wire:model.defer="sms" class="w-full border rounded px-3 py-2">
-                </div>
-                <div>
-                    <label class="block">Telepon</label>
-                    <input type="text" wire:model.defer="phone" class="w-full border rounded px-3 py-2">
-                </div>
-                <div>
-                    <label class="block">WhatsApp</label>
-                    <input type="text" wire:model.defer="whatsapp" class="w-full border rounded px-3 py-2">
+            <!-- Card: Data Diri -->
+            <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200 mt-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">DATA DIRI</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block">Nama Pemilik</label>
+                        <input type="text" wire:model.defer="name" class="w-full border rounded px-3 py-2">
+                        @error('name')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block">SMS</label>
+                        <input type="text" wire:model.defer="sms" class="w-full border rounded px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block">Telepon</label>
+                        <input type="text" wire:model.defer="phone" class="w-full border rounded px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block">WhatsApp</label>
+                        <input type="text" wire:model.defer="whatsapp" class="w-full border rounded px-3 py-2">
+                    </div>
                 </div>
             </div>
-        </div>
+            <!-- Tombol -->
+            <div class="mt-4 text-center justify-content-flex w-full">
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-40">
+                    {{ $isEditing ? 'Update' : 'Simpan' }}
+                </button>
+                <button type="button" onclick="if(confirm('Yakin ingin membatalkan?')) location.reload()"
+                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-40">
+                    Batal
+                </button>
 
-        <!-- Tombol -->
-        <div class="mt-4">
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                {{ $isEditing ? 'Update' : 'Simpan' }}
-            </button>
-            @if ($isEditing)
-                <button type="button" wire:click="resetInput" class="ml-2 text-gray-600 hover:underline">Batal</button>
-            @endif
+                @if ($isEditing)
+                    <button type="button" wire:click="resetInput"
+                        class="ml-2 text-gray-600 hover:underline">Batal</button>
+                @endif
+            </div>
         </div>
     </form>
 

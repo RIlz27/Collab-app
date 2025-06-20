@@ -11,9 +11,11 @@ class Listings extends Component
 {
     use WithPagination, WithFileUploads;
 
-    public $title, $images = [], $description, $price, $listing_id, $category_id, $location_id;
-    public $name, $sms, $phone, $whatsapp;
+    public $title, $images = [], $description, $price, $listing_id, $category_id, $location_id, $name, $sms, $phone, $whatsapp;
     public $isEditing = false;
+    public $produkPerLokasi = 0;
+    public $produkPerKategori = 0;
+
 
     protected $rules = [
         'title' => 'required|string|min:3',
@@ -29,20 +31,21 @@ class Listings extends Component
         'whatsapp' => 'nullable|string',
     ];
 
-    public function render()
-    {
-        return view('livewire.listings', [
-            'categories' => \App\Models\Category::all(),
-            'locations' => \App\Models\Location::all(),
-            'listings' => Listing::latest()->with(['category', 'location'])->paginate(10),
-        ])->layout('layouts.app');
-    }
-
     public function resetInput()
     {
         $this->reset([
-            'title', 'description', 'price', 'category_id', 'location_id',
-            'listing_id', 'name', 'sms', 'phone', 'whatsapp', 'images', 'isEditing'
+            'title',
+            'description',
+            'price',
+            'category_id',
+            'location_id',
+            'listing_id',
+            'name',
+            'sms',
+            'phone',
+            'whatsapp',
+            'images',
+            'isEditing'
         ]);
         $this->resetValidation();
     }
@@ -127,9 +130,30 @@ class Listings extends Component
         session()->flash('message', 'Produk berhasil diperbarui!');
     }
 
+    public function updatedLocationId($value)
+    {
+        $this->produkPerLokasi = Listing::where('location_id', $value)->count();
+    }
+
+    public function updatedCategoryId($value)
+    {
+        $this->produkPerKategori = Listing::where('category_id', $value)->count();
+    }
+
+
     public function destroy($id)
     {
         Listing::destroy($id);
         session()->flash('message', 'Produk berhasil dihapus!');
+    }
+
+    
+    public function render()
+    {
+        return view('livewire.listings', [
+            'categories' => \App\Models\Category::all(),
+            'locations' => \App\Models\Location::all(),
+            'listings' => Listing::latest()->with(['category', 'location'])->paginate(10),
+        ])->layout('layouts.app');
     }
 }

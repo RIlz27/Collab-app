@@ -1,8 +1,8 @@
 <div class="w-full h-screen">
-    <div class="relative w-full h-[500px] overflow-hidden">
+    {{-- <div class="relative w-full h-[500px] overflow-hidden">
         <!-- Background image -->
         <div class="absolute inset-0 bg-center bg-fixed brightness-50"
-            style="background-image: url('{{ asset('storage/bg-hous/*  */e.jpg') }}'); background-position: center; background-size: 1600px;">
+            style="background-image: url('{{ asset('storage/bg-house.jpg') }}'); background-position: center; background-size: 1600px;">
         </div>
 
         <!-- Konten di atas gambar -->
@@ -21,5 +21,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
